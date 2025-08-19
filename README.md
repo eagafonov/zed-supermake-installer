@@ -1,6 +1,6 @@
-# Zed Editor Installation
+# Makefile-based installer for Zed editor
 
-Automated installation setup for the Zed editor on Linux systems.
+Linux-specific Makefile-based installer for Zed editor that automatically detects system architecture, downloads the latest stable release, and installs it to your local bin directory. Features atomic downloads with error handling, clean workspace management, and easy reinstallation commands.
 
 ## Quick Start
 
@@ -19,18 +19,18 @@ This will download, extract, and install Zed to `~/.local/bin/zed`.
 
 ## Usage
 
-### Install Zed
+Install Zed
 ```bash
 make all
 ```
 
-### Force reinstall
+Force reinstall
 ```bash
 make force
 make all
 ```
 
-### Individual steps
+Individual steps
 ```bash
 make download  # Download the tarball
 make unpack    # Extract the application
