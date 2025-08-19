@@ -5,7 +5,7 @@ LOCAL_BIN:=$(shell readlink -f ~/.local/bin)
 
 TARBALL:=zed-linux-${ARCH}.tar.gz
 
-force:
+purge:
 	rm -f ${TARBALL}
 	rm -rf zed.app
 

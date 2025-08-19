@@ -26,7 +26,7 @@ make all
 
 Force reinstall
 ```bash
-make force
+make purge
 make all
 ```
 
@@ -60,7 +60,7 @@ Automatically detects and supports:
 ## Cleanup
 
 ```bash
-make force
+make purge
 ```
 
 Removes downloaded archives and extracted files. The symlink in `~/.local/bin` will remain but become broken.
