@@ -1,2 +1,5 @@
 /*.tar.gz
 /zed.app
+/v*
+/latest.json
+/releases.json
