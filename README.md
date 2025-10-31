@@ -16,6 +16,7 @@ This will download the latest stable release and install it to `~/.local/bin/zed
 - Linux system (x86_64 or aarch64)
 - wget, curl, tar, jq
 - `~/.local/bin` in your PATH
+- Optional: GitHub Personal Access Token (for avoiding API rate limits)
 
 ## Installation
 
@@ -113,6 +114,44 @@ make purge    # Remove current version files
 rm -rf v*     # Remove all version directories
 rm -f *.json  # Remove release metadata
 ```
+
+## GitHub API Rate Limiting
+
+GitHub API has rate limits for unauthenticated requests (60 requests per hour). If you encounter rate limiting issues when running `make refresh`, you can authenticate with a GitHub Personal Access Token.
+
+### Setting up authentication
+
+1. Create a GitHub Personal Access Token:
+   - Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - Generate new token with no scopes (public repository access only requires authentication, not special permissions)
+
+2. Use the token with make:
+   ```bash
+   make refresh GITHUB_TOKEN=ghp_yourtoken
+   ```
+
+3. Or set it as an environment variable:
+   ```bash
+   export GITHUB_TOKEN=ghp_yourtoken
+   make refresh
+   ```
+
+4. Best practice - use direnv for automatic environment management:
+   ```bash
+   # Install direnv (if not already installed)
+   # See: https://direnv.net/docs/installation.html
+
+   # Create .envrc file in project directory
+   echo 'export GITHUB_TOKEN=ghp_yourtoken' > .envrc
+
+   # Allow direnv to load the file
+   direnv allow
+
+   # Token will now be automatically loaded when you cd into this directory
+   make refresh
+   ```
+
+Note: Never commit your token to version control. Keep it secure and treat it as a password. If using direnv, ensure `.envrc` is in your `.gitignore`.
 
 ## Network requirements
 

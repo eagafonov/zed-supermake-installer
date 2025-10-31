@@ -38,10 +38,19 @@ $(LOCAL_BIN)/zed: zed.app
 	test -d "${LOCAL_BIN}"
 	ln -fs $(shell pwd)/zed.app/bin/zed ${LOCAL_BIN}
 
+GITHUB_TOKEN?=
+AUTH_ARGS:=
+
+ifneq ("${GITHUB_TOKEN}", "")
+	AUTH_ARGS:=-H "Authorization: Bearer ${GITHUB_TOKEN}"
+endif
+
 # Get releases from GitHub
 releases.json:
-	curl -s https://api.github.com/repos/zed-industries/zed/releases | jq " . | map(select(.prerelease == false))" > $@.tmp
+	curl --fail -s ${AUTH_ARGS} https://api.github.com/repos/zed-industries/zed/releases > .releases.json
+	jq " . | map(select(.prerelease == false))" .releases.json > $@.tmp
 	mv $@.tmp $@
+	rm -f .releases.json
 
 latest.json: releases.json
 	jq -r " . | map(select(.prerelease == false)) | .[0]" releases.json > $@.tmp
