@@ -4,15 +4,16 @@ all: zed.app link
 
 ARCH:=$(shell uname -m)
 LOCAL_BIN:=$(shell readlink -f ~/.local/bin)
+DOWNLOADS_DIR:=downloads
 
 LATEST_RELEASE:=$(shell jq -r .tag_name latest.json 2> /dev/null)
 
 TARBALL_LATEST:=zed-linux-${ARCH}.tar.gz
 
-TARBALL:=zed-linux-${ARCH}-${LATEST_RELEASE}.tar.gz
+TARBALL:=${DOWNLOADS_DIR}/zed-linux-${ARCH}-${LATEST_RELEASE}.tar.gz
 
 purge:
-	rm -f ${TARBALL}
+	rm -rf ${DOWNLOADS_DIR}/*.tar.gz
 	rm -rf zed.app
 
 download: ${TARBALL}
@@ -21,6 +22,7 @@ link: $(LOCAL_BIN)/zed
 
 ${TARBALL}:
 	@test -n "${LATEST_RELEASE}" || (echo "LATEST_RELEASE is empty. run 'make refresh' to fetch releases" && exit 1)
+	mkdir -p ${DOWNLOADS_DIR}
 	wget https://github.com/zed-industries/zed/releases/download/${LATEST_RELEASE}/zed-linux-${ARCH}.tar.gz -O $@.tmp || (rm -f $@.tmp && exit 1)
 	mv $@.tmp $@
 
