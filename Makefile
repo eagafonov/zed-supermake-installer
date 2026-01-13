@@ -41,10 +41,12 @@ $(LOCAL_BIN)/zed: zed.app
 	ln -fs $(shell pwd)/zed.app/bin/zed ${LOCAL_BIN}
 
 GITHUB_TOKEN?=
+export GITHUB_TOKEN
+
 AUTH_ARGS:=
 
 ifneq ("${GITHUB_TOKEN}", "")
-	AUTH_ARGS:=-H "Authorization: Bearer ${GITHUB_TOKEN}"
+	AUTH_ARGS:=-H "Authorization: Bearer $${GITHUB_TOKEN}"
 endif
 
 # Get releases from GitHub
